@@ -1,6 +1,6 @@
 # SES Catch-All Forwarder (Terraform + Python Lambda)
 
-This deploys an Amazon SES inbound pipeline that forwards **any** email sent to `*@<your-domain>` to a single destination (e.g., Gmail).
+This deploys an Amazon SES inbound pipeline that forwards any email sent to `*@<your-domain>` to a single destination (e.g., Gmail).
 
 ## What it creates
 - Route53 hosted zone for your domain
@@ -13,8 +13,8 @@ This deploys an Amazon SES inbound pipeline that forwards **any** email sent to 
 ## Prereqs
 - AWS account with IAM creds configured: `aws configure`
 - Terraform >= 1.6, AWS provider >= 5.40
-- Choose an SES **receiving** region (e.g., `us-east-1`)
-- **Domain must use Route53 for DNS** - This setup creates a Route53 hosted zone and manages all DNS records automatically
+- Choose an SES receiving region (e.g., `us-east-1`)
+- Domain must use Route53 for DNS - This setup creates a Route53 hosted zone and manages all DNS records automatically
 
 ## Quick start
 1. Edit `terraform.tfvars`:
@@ -39,8 +39,7 @@ This deploys an Amazon SES inbound pipeline that forwards **any** email sent to 
 5. Test by emailing any address at your domain, e.g. `abc123@example.org`. It should arrive at your `forward_to_email` address.
 
 ## Notes
-- The Lambda forwards by **sending a new email** via SES with the original message attached as `message/rfc822` and sets `Reply-To` to the original sender.
-- Costs: SES receiving ~$0.19 per 1,000 small emails (<=256KB); SES sending $0.10/1k; S3+Lambda minimal at low volume; Route53 hosted zone ~$0.50/month.
+- The Lambda forwards by sending a new email via SES with the original message attached as `message/rfc822` and sets `Reply-To` to the original sender.
 - Domain verification happens automatically - Terraform creates all DNS records and waits for SES verification to complete.
 - To avoid purging archived mail, disable S3 lifecycle (see comments in `main.tf`).
 
@@ -50,4 +49,4 @@ This deploys an Amazon SES inbound pipeline that forwards **any** email sent to 
 - `terraform.tfvars` - your values (example provided)
 
 ## Contributors
-Simon Cornelius P. Umacob
+Simon Cornelius P. Umacob <da46njrzf@mozmail.com>
